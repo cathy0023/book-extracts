@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苏菲的世界 - 哲学之旅</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --color-primary: #4f46e5;
+            --color-primary-dark: #4338ca;
+            --color-secondary: #8b5cf6;
+            --color-accent: #ec4899;
+            --color-text: #1f2937;
+            --color-text-light: #4b5563;
+            --color-bg: #ffffff;
+            --color-bg-alt: #f3f4f6;
+            --color-border: #e5e7eb;
+            --font-sans: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-serif;
+            --font-serif: 'Noto Serif SC', Georgia, Cambria, "Times New Roman", Times, serif;
+        }
+
+        .dark {
+            --color-primary: #6366f1;
+            --color-primary-dark: #4f46e5;
+            --color-secondary: #a78bfa;
+            --color-accent: #f472b6;
+            --color-text: #f9fafb;
+            --color-text-light: #d1d5db;
+            --color-bg: #111827;
+            --color-bg-alt: #1f2937;
+            --color-border: #374151;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .serif {
+            font-family: var(--font-serif);
+        }
+
+        .sans {
+            font-family: var(--font-sans);
+        }
+
+        .magazine-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            position: relative;
+            background-image: linear-gradient(to right, rgba(79, 70, 229, 0.8), rgba(236, 72, 153, 0.8));
+            overflow: hidden;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 8%),
+                             radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 8%),
+                             radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.25) 0%, transparent 8%);
+            opacity: 0.5;
+        }
+
+        .first-letter:first-letter {
+            float: left;
+            font-size: 4em;
+            line-height: 0.8;
+            padding-right: 0.1em;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .quote-mark {
+            font-size: 6rem;
+            line-height: 0;
+            position: absolute;
+            top: 3rem;
+            left: -1.5rem;
+            color: var(--color-bg-alt);
+            z-index: 0;
+            font-family: Georgia, serif;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            padding-bottom: 2rem;
+            border-left: 2px solid var(--color-primary);
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+        }
+
+        .card {
+            background-color: var(--color-bg-alt);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primary);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: var(--color-primary);
+            color: white;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--color-primary);
+            color: white;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: var(--color-primary-dark);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--color-text);
+            transition: color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--color-primary);
+        }
+
+        @media (max-width: 768px) {
+            .quote-mark {
+                font-size: 4rem;
+                top: 2rem;
+                left: -1rem;
+            }
+            
+            .first-letter:first-letter {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航 -->
+    <nav class="sticky top-0 z-50 bg-opacity-90 backdrop-filter backdrop-blur-lg" style="background-color: var(--color-bg);">
+        <div class="magazine-container">
+            <div class="flex items-center justify-between py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-book-open text-2xl" style="color: var(--color-primary);"></i>
+                    <span class="text-xl font-bold serif">苏菲的世界</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#intro" class="nav-link" style="color: var(--color-text);">简介</a>
+                    <a href="#characters" class="nav-link" style="color: var(--color-text);">人物</a>
+                    <a href="#philosophy" class="nav-link" style="color: var(--color-text);">哲学思想</a>
+                    <a href="#quotes" class="nav-link" style="color: var(--color-text);">经典语录</a>
+                    <a href="#reading" class="nav-link" style="color: var(--color-text);">延伸阅读</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="theme-toggle">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <button class="md:hidden" id="mobile-menu-button">
+                        <i class="fas fa-bars text-xl" style="color: var(--color-text);"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- 移动端菜单 -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="flex flex-col space-y-4 py-4" style="border-top: 1px solid var(--color-border);">
+                    <a href="#intro" class="nav-link" style="color: var(--color-text);">简介</a>
+                    <a href="#characters" class="nav-link" style="color: var(--color-text);">人物</a>
+                    <a href="#philosophy" class="nav-link" style="color: var(--color-text);">哲学思想</a>
+                    <a href="#quotes" class="nav-link" style="color: var(--color-text);">经典语录</a>
+                    <a href="#reading" class="nav-link" style="color: var(--color-text);">延伸阅读</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section class="hero py-20 md:py-32">
+        <div class="hero-pattern"></div>
+        <div class="magazine-container relative z-10">
+            <div class="max-w-3xl">
+                <div class="text-white">
+                    <span class="inline-block px-3 py-1 text-sm rounded-full bg-white bg-opacity-30 mb-4">乔斯坦·贾德</span>
+                    <h1 class="text-4xl md:text-6xl font-bold serif mb-4">苏菲的世界</h1>
+                    <p class="text-xl md:text-2xl serif font-light mb-8">一部哲学启蒙小说，一次穿越时空的思想之旅</p>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="#intro" class="button">开始阅读</a>
+                        <div class="flex items-center">
+                            <span class="text-white text-opacity-80">继续下滑</span>
+                            <i class="fas fa-arrow-down ml-2 animate-bounce"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 内容主体 -->
+    <main class="magazine-container py-16">
+        <!-- 简介部分 -->
+        <section id="intro" class="mb-24">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-2">
+                    <h2 class="text-3xl font-bold serif mb-6" style="color: var(--color-primary);">关于这本书</h2>
+                    <div class="space-y-4 serif">
+                        <p class="first-letter text-lg" style="color: var(--color-text);">
+                            《苏菲的世界》是挪威作家乔斯坦·贾德于1991年创作的哲学启蒙小说。这本书通过讲述14岁少女苏菲·阿蒙森接受一位神秘导师艾伯特的哲学通信课程的故事，带领读者穿越西方哲学史的漫长旅程。小说以小说中套小说的独特结构，将抽象复杂的哲学思想转化为生动有趣的故事，使哲学变得平易近人。
+                        </p>
+                        <p class="text-lg" style="color: var(--color-text);">
+                            故事始于苏菲收到一系列神秘信件，上面写着"你是谁？"、"世界从哪里来？"等哲学问题。随着故事发展，苏菲逐渐发现自己和导师艾伯特可能只是少校阿尔伯特为女儿希尔德创作的小说中的角色。这种现实与虚构交织的叙事结构，不仅引人入胜，更是对哲学本质问题的隐喻性探讨。
+                        </p>
+                        <p class="text-lg" style="color: var(--color-text);">
+                            这部作品已被翻译成60多种语言，全球销量超过4000万册，成为20世纪最具影响力的哲学普及读物之一。它不仅是一部哲学入门书，更是一次关于存在本质、认知世界方式的思想探险。
+                        </p>
+                    </div>
+                </div>
+                <div class="md:col-span-1">
+                    <div class="card p-6 relative">
+                        <div class="quote-mark">"</div>
+                        <blockquote class="serif text-lg italic relative z-10" style="color: var(--color-text);">
+                            哲学家的任务就是去问一些看似非常简单，实际上却非常深刻的问题。就像哲学家苏格拉底所坚持的那样，关键不是获取关于世界的新知识，而是了解我们已经知道的东西。
+                        </blockquote>
+                        <div class="text-right mt-4">
+                            <span class="sans font-medium text-sm" style="color: var(--color-text-light);">— 乔斯坦·贾德，《苏菲的世界》</span>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <div class="flex flex-wrap">
+                            <span class="tag">哲学启蒙</span>
+                            <span class="tag">成长小说</span>
+                            <span class="tag">西方哲学史</span>
+                            <span class="tag">存在主义</span>
+                            <span class="tag">元小说</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 人物介绍 -->
+        <section id="characters" class="mb-24">
+            <h2 class="text-3xl font-bold serif mb-10" style="color: var(--color-primary);">主要人物</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center rounded-full mb-4" style="background-color: var(--color-primary);">
+                            <i class="fas fa-female text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">苏菲·阿蒙森</h3>
+                        <p class="text-base" style="color: var(--color-text-light);">
+                            14岁的挪威少女，在收到一系列神秘信件后，开始了她的哲学之旅。她具有天生的好奇心和探索精神，敢于质疑并渴望寻找真相。
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center rounded-full mb-4" style="background-color: var(--color-primary);">
+                            <i class="fas fa-user-tie text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">艾伯特·诺克斯</h3>
+                        <p class="text-base" style="color: var(--color-text-light);">
+                            神秘的哲学导师，通过一系列信件和对话向苏菲传授西方哲学史。他使用神秘而引人入胜的教学方法，引导苏菲思考哲学问题。
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center rounded-full mb-4" style="background-color: var(--color-primary);">
+                            <i class="fas fa-female text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">希尔德·默勒·克纳格</h3>
+                        <p class="text-base" style="color: var(--color-text-light);">
+                            阿尔伯特少校的女儿，15岁生日即将到来。故事后半部分揭示，苏菲和艾伯特的故事可能是父亲送给她的生日礼物——一本关于哲学的书。
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center rounded-full mb-4" style="background-color: var(--color-primary);">
+                            <i class="fas fa-user-tie text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">阿尔伯特·克纳格少校</h3>
+                        <p class="text-base" style="color: var(--color-text-light);">
+                            希尔德的父亲，联合国维和部队的一名军官，被派驻在黎巴嫩。他创作了苏菲和艾伯特的故事作为送给女儿的哲学启蒙礼物。
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center rounded-full mb-4" style="background-color: var(--color-primary);">
+                            <i class="fas fa-female text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">乔安娜</h3>
+                        <p class="text-base" style="color: var(--color-text-light);">
+                            苏菲的好朋友，尽管她对哲学不感兴趣，但她的存在为故事提供了一个重要的对比元素，展示了普通生活与哲学思考的差异。
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="p-6">
+                        <div class="w-16 h-16 flex items-center justify-center rounded-full mb-4" style="background-color: var(--color-primary);">
+                            <i class="fas fa-dog text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">赫尔墨斯</h3>
+                        <p class="text-base" style="color: var(--color-text-light);">
+                            艾伯特的宠物狗，以希腊神话中众神的信使命名。它在故事中扮演着连接不同现实层面的象征性角色。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 哲学思想脉络 -->
+        <section id="philosophy" class="mb-24">
+            <h2 class="text-3xl font-bold serif mb-10" style="color: var(--color-primary);">哲学思想脉络</h2>
+            
+            <div class="mb-12">
+                <div class="bg-opacity-50 p-6 rounded-lg" style="background-color: var(--color-bg-alt);">
+                    <div class="serif">
+                        <p class="mb-4" style="color: var(--color-text);">《苏菲的世界》以时间顺序梳理了西方哲学发展的主要阶段和思想。下图展示了书中涉及的主要哲学流派及其代表人物：</p>
+                    </div>
+                    <div class="mermaid-diagram">
+                        <pre class="mermaid">
+flowchart TD
+    A[西方哲学史] --> B[古希腊哲学]
+    A --> C[中世纪哲学]
+    A --> D[文艺复兴]
+    A --> E[理性主义与经验主义]
+    A --> F[启蒙运动]
+    A --> G[浪漫主义]
+    A --> H[黑格尔]
+    A --> I[现代哲学]
+    
+    B --> B1[前苏格拉底时期]
+    B --> B2[苏格拉底]
+    B --> B3[柏拉图]
+    B --> B4[亚里士多德]
+    B1 --> B1a[泰勒斯]
+    B1 --> B1b[德谟克利特]
+    
+    C --> C1[奥古斯丁]
+    C --> C2[托马斯·阿奎那]
+    
+    D --> D1[文艺复兴人文主义]
+    D --> D2[哥白尼革命]
+    
+    E --> E1[笛卡尔]
+    E --> E2[斯宾诺莎]
+    E --> E3[洛克]
+    E --> E4[休谟]
+    E --> E5[伯克利]
+    
+    F --> F1[卢梭]
+    F --> F2[康德]
+    
+    G --> G1[黑格尔]
+    G --> G2[克尔凯郭尔]
+    
+    I --> I1[马克思]
+    I --> I2[达尔文]
+    I --> I3[弗洛伊德]
+    I --> I4[萨特]
+    I --> I5[波伏娃]
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-primary);">古希腊哲学</h3>
+                    <p class="serif" style="color: var(--color-text);">从泰勒斯提出"水是万物之源"开始，希腊哲学家们开始寻找世界的本原。苏菲学习了前苏格拉底哲学家、苏格拉底、柏拉图和亚里士多德的思想，了解了理念世界与感官世界的区别，以及逻辑学的基础。</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-primary);">中世纪哲学</h3>
+                    <p class="serif" style="color: var(--color-text);">基督教的兴起改变了哲学的方向。奥古斯丁和托马斯·阿奎那尝试将基督教信仰与古希腊哲学调和，形成了以信仰为中心的神学哲学体系。</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-primary);">文艺复兴与科学革命</h3>
+                    <p class="serif" style="color: var(--color-text);">人类重新发现了古希腊文化，开始关注现世生活。哥白尼、伽利略等人的科学发现挑战了中世纪宇宙观，人类重新思考自身在宇宙中的位置。</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-primary);">理性主义与经验主义</h3>
+                    <p class="serif" style="color: var(--color-text);">笛卡尔的"我思故我在"开创了理性主义传统；而洛克、休谟等经验主义者则强调感官经验的重要性。两大思想流派围绕知识的获取方式展开激烈辩论。</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-primary);">启蒙运动</h3>
+                    <p class="serif" style="color: var(--color-text);">康德试图调和理性主义与经验主义，提出人类认识是由先验范畴和经验共同构成的。启蒙思想家们提倡理性、科学和自由，挑战传统权威。</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-primary);">浪漫主义与现代哲学</h3>
+                    <p class="serif" style="color: var(--color-text);">黑格尔的辩证法，马克思的唯物主义，克尔凯郭尔的存在主义，直到尼采、萨特等现代哲学家，都在不同维度探讨着人类存在的意义和自由的本质。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 经典语录 -->
+        <section id="quotes" class="mb-24">
+            <h2 class="text-3xl font-bold serif mb-10" style="color: var(--color-primary);">经典语录</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-6 relative">
+                    <div class="quote-mark">"</div>
+                    <blockquote class="serif text-lg italic relative z-10" style="color: var(--color-text);">
+                        最令人惊奇的事情，莫过于在这个我们生活的世界上有某种东西的存在而不是虚无。
+                    </blockquote>
+                    <div class="text-right mt-4">
+                        <span class="sans font-medium text-sm" style="color: var(--color-text-light);">— 《苏菲的世界》</span>
+                    </div>
+                </div>
+                <div class="card p-6 relative">
+                    <div class="quote-mark">"</div>
+                    <blockquote class="serif text-lg italic relative z-10" style="color: var(--color-text);">
+                        我们无法解决自己存在的问题，因为我们本身就是这个问题。
+                    </blockquote>
+                    <div class="text-right mt-4">
+                        <span class="sans font-medium text-sm" style="color: var(--color-text-light);">— 《苏菲的世界》</span>
+                    </div>
+                </div>
+                <div class="card p-6 relative">
+                    <div class="quote-mark">"</div>
+                    <blockquote class="serif text-lg italic relative z-10" style="color: var(--color-text);">
+                        哲学家永远像个孩子，不停地问为什么。
+                    </blockquote>
+                    <div class="text-right mt-4">
+                        <span class="sans font-medium text-sm" style="color: var(--color-text-light);">— 《苏菲的世界》</span>
+                    </div>
+                </div>
+                <div class="card p-6 relative">
+                    <div class="quote-mark">"</div>
+                    <blockquote class="serif text-lg italic relative z-10" style="color: var(--color-text);">
+                        认识自己是所有智慧的开始。
+                    </blockquote>
+                    <div class="text-right mt-4">
+                        <span class="sans font-medium text-sm" style="color: var(--color-text-light);">— 苏格拉底，《苏菲的世界》</span>
+                    </div>
+                </div>
+                <div class="card p-6 relative">
+                    <div class="quote-mark">"</div>
+                    <blockquote class="serif text-lg italic relative z-10" style="color: var(--color-text);">
+                        唯一令人感到奇怪的是，居然还有人不对世界感到惊奇。
+                    </blockquote>
+                    <div class="text-right mt-4">
+                        <span class="sans font-medium text-sm" style="color: var(--color-text-light);">— 《苏菲的世界》</span>
+                    </div>
+                </div>
+                <div class="card p-6 relative">
+                    <div class="quote-mark">"</div>
+                    <blockquote class="serif text-lg italic relative z-10" style="color: var(--color-text);">
+                        我们只不过是兔子的毛皮上冒出来的小虱子，还以为自己是宇宙的中心。
+                    </blockquote>
+                    <div class="text-right mt-4">
+                        <span class="sans font-medium text-sm" style="color: var(--color-text-light);">— 《苏菲的世界》</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 主题探讨 -->
+        <section class="mb-24">
+            <h2 class="text-3xl font-bold serif mb-10" style="color: var(--color-primary);">主题探讨</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold serif mb-4" style="color: var(--color-text);">现实与虚构的边界</h3>
+                    <p class="serif" style="color: var(--color-text);">
+                        小说的独特结构—小说中的小说—引发了关于现实与虚构边界的深刻思考。当苏菲和艾伯特意识到自己可能只是另一个故事中的角色时，他们开始质疑自己存在的真实性。这种元叙事结构不仅是文学技巧，更是对哲学上本体论问题的探讨：我们如何确定自己的现实不是他人想象的产物？
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold serif mb-4" style="color: var(--color-text);">知识的追求与哲学的价值</h3>
+                    <p class="serif" style="color: var(--color-text);">
+                        小说通过苏菲的学习过程，展示了哲学思考对个人成长的重要性。哲学不仅是抽象理论的集合，更是一种思考方式，一种对世界保持好奇和批判精神的态度。正如艾伯特所说："重要的不是你学了什么，而是你永远不要停止对生命的好奇。"这种知识追求的态度，正是哲学的核心价值。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold serif mb-4" style="color: var(--color-text);">个体自由与命运</h3>
+                    <p class="serif" style="color: var(--color-text);">
+                        书中的角色逐渐意识到自己作为"虚构人物"的处境，这引发了关于自由意志与宿命论的思考。尽管苏菲和艾伯特知道自己是由少校创造的，但他们仍然试图打破故事的框架，争取自己的自由。这种挣扎象征着人类在既定环境中寻求自由的普遍经历，呼应了萨特的存在主义观点："存在先于本质"。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold serif mb-4" style="color: var(--color-text);">人类的位置与宇宙的秘密</h3>
+                    <p class="serif" style="color: var(--color-text);">
+                        贾德通过苏菲的视角，不断质疑人类在宇宙中的位置：我们是谁？我们从哪里来？世界是如何形成的？这些基本问题引导读者重新思考自己与宇宙的关系。书中使用的"兔子从帽子里拉出来"的比喻，生动地表达了宇宙存在本身的神奇性，以及人类作为宇宙一部分存在的不可思议。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 延伸阅读 -->
+        <section id="reading" class="mb-24">
+            <h2 class="text-3xl font-bold serif mb-10" style="color: var(--color-primary);">延伸阅读</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">《西方哲学史》</h3>
+                        <p class="text-sm mb-2" style="color: var(--color-text-light);">伯特兰·罗素</p>
+                        <p class="serif" style="color: var(--color-text);">
+                            罗素的经典之作提供了更系统、更深入的西方哲学发展脉络。如果你被《苏菲的世界》的哲学之旅吸引，这本书将是进一步探索的绝佳选择。
+                        </p>
+                    </div>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">《从笛卡尔到杜威》</h3>
+                        <p class="text-sm mb-2" style="color: var(--color-text-light);">杜威特·D·罗伯特</p>
+                        <p class="serif" style="color: var(--color-text);">
+                            探讨现代西方哲学思想发展的重要著作，聚焦于理性主义、经验主义和实用主义等现代哲学流派，是理解现代哲学的重要读物。
+                        </p>
+                    </div>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">《存在与虚无》</h3>
+                        <p class="text-sm mb-2" style="color: var(--color-text-light);">让-保罗·萨特</p>
+                        <p class="serif" style="color: var(--color-text);">
+                            萨特的存在主义哲学代表作，深入探讨了自由、责任和存在的本质问题，与《苏菲的世界》中的存在主义主题相呼应。
+                        </p>
+                    </div>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">《理想国》</h3>
+                        <p class="text-sm mb-2" style="color: var(--color-text-light);">柏拉图</p>
+                        <p class="serif" style="color: var(--color-text);">
+                            柏拉图的哲学经典之作，通过对话形式探讨了正义、理想社会和理念世界等核心问题，是理解柏拉图哲学思想的必读之作。
+                        </p>
+                    </div>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold serif mb-2" style="color: var(--color-text);">《小王子》</h3>
+                        <p class="text-sm mb-2" style="color: var(--color-text-light);">安托万·德·圣埃克苏佩里</p>
+                        <p class="serif" style="color: var(--color-text);">
+                            与《苏菲的世界》类似，这部经典寓言小说通过童话般的叙事探讨了成长、爱、责任和人生意义等哲学主题，适合任何年龄段的读者。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer style="background-color: var(--color-bg-alt);">
+        <div class="magazine-container py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-book-open text-2xl" style="color: var(--color-primary);"></i>
+                        <span class="text-xl font-bold serif" style="color: var(--color-text);">苏菲的世界</span>
+                    </div>
+                    <p class="serif mb-4" style="color: var(--color-text-light);">
+                        一场穿越哲学历史的奇妙旅程，一部让思想变得生动的哲学启蒙小说。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" style="color: var(--color-text-light);"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" style="color: var(--color-text-light);"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" style="color: var(--color-text-light);"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold serif mb-4" style="color: var(--color-text);">快速导航</h3>
+                    <div class="grid grid-cols-2">
+                        <div>
+                            <ul class="space-y-2">
+                                <li><a href="#intro" class="hover:underline" style="color: var(--color-text-light);">简介</a></li>
+                                <li><a href="#characters" class="hover:underline" style="color: var(--color-text-light);">人物</a></li>
+                                <li><a href="#philosophy" class="hover:underline" style="color: var(--color-text-light);">哲学思想</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="space-y-2">
+                                <li><a href="#quotes" class="hover:underline" style="color: var(--color-text-light);">经典语录</a></li>
+                                <li><a href="#reading" class="hover:underline" style="color: var(--color-text-light);">延伸阅读</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t mt-8 pt-8" style="border-color: var(--color-border);">
+                <p class="text-center" style="color: var(--color-text-light);">© 2025 苏菲的世界 | 设计：哲学之旅 | 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // 主题切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // 初始化主题
+            if (prefersDarkMode) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // 切换主题
+            themeToggle.addEventListener('click', function() {
+                document.documentElement.classList.toggle('dark');
+                
+                // 更新 Mermaid 图表主题
+                if (document.documentElement.classList.contains('dark')) {
+                    mermaid.initialize({ theme: 'dark' });
+                } else {
+                    mermaid.initialize({ theme: 'default' });
+                }
+                
+                // 重新渲染图表
+                mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            });
+            
+            // 移动端菜单
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // 点击导航链接后关闭移动菜单
+            const navLinks = document.querySelectorAll('#mobile-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
